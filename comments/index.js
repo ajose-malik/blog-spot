@@ -2,6 +2,7 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const { randomBytes } = require('crypto')
 const cors = require('cors')
+const axios = require('axios')
 
 const app = express()
 app.use(bodyParser.json())
@@ -47,17 +48,17 @@ app.post('/events', async (req, res) => {
 		const comment = comments.find(comment => comment.id === id)
 
 		comment.status = status
-	}
 
-	await axios.post('http://localhost:4005', {
-		type: 'CommentUpdated',
-		data: {
-			id,
-			status,
-			postId,
-			content
-		}
-	})
+		await axios.post('http://localhost:4005', {
+			type: 'CommentUpdated',
+			data: {
+				id,
+				status,
+				postId,
+				content
+			}
+		})
+	}
 
 	res.send({})
 })

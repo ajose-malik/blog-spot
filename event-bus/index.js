@@ -8,16 +8,20 @@ app.use(bodyParser.json())
 app.post('/events', (req, res) => {
 	const event = req.body
 
-	axios.post('http://localhost:4000/events', event)
-	axios.post('http://localhost:4001/events', event)
-	axios.post('http://localhost:4002/events', event)
-	axios.post('http://localhost:4003/events', event)
+	axios.post('http://localhost:4000/events', event).catch(err => {
+		console.log('__________logging err_4000',err.message)
+	})
+	axios.post('http://localhost:4001/events', event).catch(err => {
+		console.log('__________logging err_4001',err.message)
+	})
+	axios.post('http://localhost:4002/events', event).catch(err => {
+		console.log('__________logging err_4002',err.message)
+	})
+	axios.post('http://localhost:4003/events', event).catch(err => {
+		console.log('__________logging err_4003',err.message)
+	})
 
 	res.send({ status: 'OK' })
 })
 
 app.listen(4005, () => console.log('STARTED 4005'))
-
-// .catch(err => {
-// 	console.log(err.message)
-// })
