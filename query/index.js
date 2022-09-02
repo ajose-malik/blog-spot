@@ -1,4 +1,5 @@
 const express = require('express')
+const axios = require('axios')
 const bodyParser = require('body-parser')
 const cors = require('cors')
 
@@ -46,12 +47,15 @@ app.post('/events', (req, res) => {
 
 app.listen(4002, async () => {
 	console.log('STARTED 4002')
+	try {
+		const response = await axios.get('http://localhost:4005/events')
 
-	const response = await axios.get('http://localhost:4005/events')
+		for (let event of response.data) {
+			console.log('Processing event:', event.type)
 
-	for (let event of response.data) {
-		console.log('Processing event:', event.type)
-
-		handleEvent(event.type, event.data)
+			handleEvent(event.type, event.data)
+		}
+	} catch (error) {
+		console.log(error.message)
 	}
 })
